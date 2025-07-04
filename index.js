@@ -1,13 +1,30 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const PORT = 3000;
 
-app.use(express.json()); // lets you parse JSON requests
+// Loads environment variables.
+require("dotenv").config();
 
-app.get('/', (req, res) => {
-  res.send('Hello from Node + Express!');
-});
+// Lets you parse JSON requests
+app.use(express.json());
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// Setup MongoDB connection.
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("Connected to MongoDB");
+
+        // Register signup route
+        const signupRoute = require("./route/signup");
+        app.use("/api/signup", signupRoute);
+
+        // Start server after DB connection
+        const PORT = process.env.PORT;
+        app.listen(PORT, () => {
+            console.log(`Server listening on port ${PORT}`);
+        });
+
+    })
+    .catch(err => {
+        console.error("MongoDB connection error:", err);
+        process.exit(1);
+    });
