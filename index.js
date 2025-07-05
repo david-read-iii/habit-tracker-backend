@@ -9,19 +9,15 @@ app.use(express.json());
 
 // Setup MongoDB connection.
 const mongoose = require("mongoose");
+const loadRoutes = require("./config/loadRoutes");
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB");
 
-        // Register signup route
-        const signupRoute = require("./route/signup");
-        app.use("/api/signup", signupRoute);
+        // Load routes.
+        loadRoutes(app);
 
-        // Register login route
-        const loginRoute = require("./route/login");
-        app.use("/api/login", loginRoute);
-
-        // Start server after DB connection
+        // Start server after DB connection.
         const PORT = process.env.PORT;
         app.listen(PORT, () => {
             console.log(`Server listening on port ${PORT}`);
