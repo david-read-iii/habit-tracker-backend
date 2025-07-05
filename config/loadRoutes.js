@@ -1,8 +1,7 @@
 /**
  * Registers application routes with the provided Express app instance.
  *
- * This function loads route modules (e.g., signup and login)
- * and attaches them to their respective API paths.
+ * This function loads route modules and attaches them to their respective API paths.
  * 
  * It should be called during the initial application setup.
  *
