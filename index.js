@@ -17,6 +17,10 @@ mongoose.connect(process.env.MONGO_URI)
         const signupRoute = require("./route/signup");
         app.use("/api/signup", signupRoute);
 
+        // Register login route
+        const loginRoute = require("./route/login");
+        app.use("/api/login", loginRoute);
+
         // Start server after DB connection
         const PORT = process.env.PORT;
         app.listen(PORT, () => {

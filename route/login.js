@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { signupUser } = require("../controller/signupController");
+const { loginUser } = require("../controller/loginController");
 const { handleError } = require("../controller/commonController");
 
 router.post("/", async (req, res) => {
     try {
-        const token = await signupUser(req.body);
-        res.status(201).json({ token });
+        const token = await loginUser(req.body);
+        res.status(200).json({ token });
     } catch (err) {
         handleError(err, res);
     }
