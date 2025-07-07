@@ -9,10 +9,11 @@
  */
 function loadRoutes(app) {
     const signupRoute = require("../route/signup");
-    const loginRoute = require("../route/login");
-
     app.use("/api/signup", signupRoute);
+    const loginRoute = require("../route/login");
     app.use("/api/login", loginRoute);
+    const timezoneRoute = require("../route/timezone");
+    app.use("/api/timezone", timezoneRoute);
 }
 
 module.exports = loadRoutes;
