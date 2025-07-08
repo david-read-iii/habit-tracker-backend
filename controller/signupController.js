@@ -3,48 +3,61 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 
 /**
- * Registers a new user in the system.
- *
- * This function checks if the provided email already exists, hashes the password,
- * saves the user to the database, and returns a signed JWT for authentication.
- *
- * @async
- * @function signupUser
- * @param {Object} params - The user signup parameters.
- * @param {string} params.email - The user's email address.
- * @param {string} params.password - The user's plain text password.
- * @param {string} params.timezone - The user's timezone.
- * @returns {Promise<string>} A JWT token valid for 7 days.
- * @throws {Error} If the email is already in use or another error occurs during signup.
+ * Handles user signup by creating a new account and returning a JWT token.
+ * 
+ * This function:
+ * - Validates that the email is not already in use
+ * - Hashes the user's password for secure storage
+ * - Saves the new user to the database
+ * - Issues a JSON Web Token (JWT) for client authentication
+ * 
+ * Expects `email`, `password`, and `timezone` in the request body.
+ * Returns a 201 response with a JWT if successful.
+ * 
+ * @param {Object} req - Express request object
+ * @param {string} req.body.email - The user's email address (must be unique)
+ * @param {string} req.body.password - The user's plain text password
+ * @param {string} req.body.timezone - The user's preferred timezone (e.g., "America/New_York")
+ * 
+ * @param {Object} res - Express response object
+ * 
+ * @returns {Object} JSON response:
+ *   - 201: `{ token: <JWT> }` on successful signup
+ *   - 400: `{ error: "Email Already In Use" }` if email is taken
+ *   - 500: `{ error: "Internal Server Error" }` on unexpected failure
  */
-async function signupUser({ email, password, timezone }) {
-    // Check for existing user
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-        const error = new Error("Email already in use.");
-        error.status = 400;
-        throw error;
+async function signupUser(req, res) {
+    try {
+        // Check for existing user
+        const { email, password, timezone } = req.body;
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: "Email already in use" });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create user
+        const user = new User({
+            email,
+            password: hashedPassword,
+            timezone
+        });
+        await user.save();
+
+        // Generate JWT
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        return res.status(201).json({ token });
+    } catch (err) {
+        console.error("500 error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
-    const user = new User({
-        email,
-        password: hashedPassword,
-        timezone
-    });
-    await user.save();
-
-    // Generate JWT
-    const token = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: "7d" }
-    );
-
-    return token;
 }
 
 module.exports = { signupUser };

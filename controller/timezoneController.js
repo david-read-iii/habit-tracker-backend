@@ -19,7 +19,7 @@ const User = require("../model/User");
  *   - 200: `{ message: "Timezone updated", timezone: "..." }`
  *   - 400: `{ error: "Timezone is required" }`
  *   - 404: `{ error: "User not found" }`
- *   - 500: `{ error: "Internal Server Error" }`
+ *   - 500: `{ error: "Internal server error" }`
  */
 async function updateTimezone(req, res) {
     try {
@@ -43,8 +43,8 @@ async function updateTimezone(req, res) {
 
         return res.status(200).json({ message: "Timezone updated", timezone: user.timezone });
     } catch (err) {
-        console.error("Error updating timezone:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+        console.error("500 error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
 }
 
