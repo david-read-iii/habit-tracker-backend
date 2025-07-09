@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const authenticateToken = require("../middleware/authentication");
-const { updateTimezone } = require("../controller/timezoneController");
+const authenticateToken = require("../src/middleware/authentication");
+const { updateTimezone } = require("../src/controller/timezoneController");
 
 router.patch("/", authenticateToken, updateTimezone);
 

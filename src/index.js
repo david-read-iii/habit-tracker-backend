@@ -9,7 +9,7 @@ app.use(express.json());
 
 // Setup MongoDB connection.
 const mongoose = require("mongoose");
-const loadRoutes = require("./config/loadRoutes");
+const loadRoutes = require("./src/config/loadRoutes");
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB");

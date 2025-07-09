@@ -1,4 +1,4 @@
-const User = require("../model/User");
+const User = require("../src/model/User");
 
 /**
  * Updates the authenticated user's timezone.
