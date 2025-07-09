@@ -8,11 +8,11 @@
  * @param {import("express").Express} app - The Express application instance
  */
 function loadRoutes(app) {
-    const signupRoute = require("../src/route/signup");
+    const signupRoute = require("../route/signup");
     app.use("/api/signup", signupRoute);
-    const loginRoute = require("../src/route/login");
+    const loginRoute = require("../route/login");
     app.use("/api/login", loginRoute);
-    const timezoneRoute = require("../src/route/timezone");
+    const timezoneRoute = require("../route/timezone");
     app.use("/api/timezone", timezoneRoute);
 }
 

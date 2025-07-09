@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../src/model/User");
+const User = require("../model/User");
 
 /**
  * Handles user signup by creating a new account and returning a JWT token.
