@@ -8,6 +8,7 @@ on:
 
 jobs:
   check-branch:
+    name: Check PR Source Branch For Release Branch
     runs-on: ubuntu-latest
     env:
       ALLOWED_PREFIXES: "feature/ bugfix/ chore/"
