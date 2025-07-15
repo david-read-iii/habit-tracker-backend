@@ -12,7 +12,7 @@ brew services start mongodb/brew/mongodb-community
 
 2. Run the server
 ```bash
-node index.js
+node src/index.js
 ```
 
 3. Use Postman to test service calls. Use MongoDB Compass to verify database entries.
