@@ -15,7 +15,10 @@ brew services start mongodb/brew/mongodb-community
 node src/index.js
 ```
 
-3. Use Postman to test service calls. Use MongoDB Compass to verify database entries.
+3. Start testing!
+   - Use Postman to mimic service calls.
+   - Use MongoDB Compass to verify database entries.
+   - Use Swagger to view API documentation. Open [this link](http://localhost:3000/api-docs) in browser.
 
 ## Stop Local Test
 
@@ -25,4 +28,3 @@ node src/index.js
 ```bash
 brew services stop mongodb/brew/mongodb-community
 ```
-

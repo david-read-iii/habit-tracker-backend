@@ -14,6 +14,12 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB");
 
+        // Setup Swagger for API documentation.
+        if (process.env.NODE_ENV !== "production") {
+            const setupSwagger = require("./config/swagger");
+            setupSwagger(app);
+        }
+
         // Load routes.
         loadRoutes(app);
 
