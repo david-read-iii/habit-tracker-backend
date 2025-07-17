@@ -36,12 +36,7 @@ const { signupUser } = require("../controller/signupController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   description: JWT token for the new user
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *               $ref: "#/components/schemas/AuthenticationToken"
  *       400:
  *         description: Email already in use
  *         content:

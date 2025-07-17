@@ -32,12 +32,7 @@ const { loginUser } = require("../controller/loginController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   description: JWT token for authenticated user
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *               $ref: "#/components/schemas/AuthenticationToken"
  *       400:
  *         description: Invalid email or password
  *         content:

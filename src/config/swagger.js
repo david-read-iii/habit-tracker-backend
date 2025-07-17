@@ -37,6 +37,19 @@ function setupSwagger(app) {
                     }
                 },
                 schemas: {
+                    // Common authentication token schema used in login and signup services.
+                    AuthenticationToken: {
+                        type: "object",
+                        properties: {
+                            token: {
+                                type: "string",
+                                description: "JWT token for authenticated user",
+                                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                            }
+                        },
+                        required: ["token"],
+                    },
+                    // Common error schema used server-wide.
                     Error: {
                         type: "object",
                         properties: {
@@ -49,7 +62,7 @@ function setupSwagger(app) {
                     },
                 },
                 responses: {
-                    // Common 401 error from authentication middleware
+                    // Common 401 error response from authentication middleware.
                     UnauthorizedError: {
                         description: "Unauthorized - Missing token",
                         content: {
@@ -63,7 +76,7 @@ function setupSwagger(app) {
                             }
                         }
                     },
-                    // Common 403 error from authentication middleware
+                    // Common 403 error response from authentication middleware.
                     ForbiddenError: {
                         description: "Forbidden - Invalid or expired token",
                         content: {
@@ -77,7 +90,7 @@ function setupSwagger(app) {
                             }
                         }
                     },
-                    // Common 500 error used server-wide
+                    // Common 500 error response used server-wide.
                     InternalServerError: {
                         description: "Unexpected server error",
                         content: {
