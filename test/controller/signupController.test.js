@@ -9,8 +9,12 @@ jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 
 describe("signupUser", () => {
+    beforeEach(() => {
+        jest.spyOn(console, "error").mockImplementation(() => { });
+    });
+
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.restoreAllMocks();
     });
 
     it("should return 201 and a token on successful signup", async () => {

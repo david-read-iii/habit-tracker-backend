@@ -15,10 +15,12 @@ describe("addHabit", () => {
             status: jest.fn().mockReturnThis(),
             json: jest.fn(),
         };
+
+        jest.spyOn(console, "error").mockImplementation(() => { });
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.restoreAllMocks();
     });
 
     it("should return 201 and create habit if valid", async () => {

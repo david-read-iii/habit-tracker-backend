@@ -8,15 +8,18 @@ describe("updateTimezone", () => {
     let req, res;
 
     beforeEach(() => {
-        res = createMockRes();
         req = {
             user: { userId: "user123" },
             body: { timezone: "America/New_York" },
         };
+
+        res = createMockRes();
+
+        jest.spyOn(console, "error").mockImplementation(() => { });
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.restoreAllMocks();
     });
 
     it("should return 200 and updated timezone on success", async () => {

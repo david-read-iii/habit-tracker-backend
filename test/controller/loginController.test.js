@@ -5,8 +5,13 @@ const jwt = require("jsonwebtoken");
 const { createMockRes } = require("../testUtils");
 
 describe("loginUser", () => {
+
+    beforeEach(() => {
+        jest.spyOn(console, "error").mockImplementation(() => { });
+    });
+
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.restoreAllMocks();
     });
 
     it("returns 200 and token for valid credentials", async () => {
