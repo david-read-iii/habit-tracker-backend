@@ -39,7 +39,7 @@ function setupSwagger(app) {
             },
         },
         apis: [__dirname + "/../route/*.js"],
-    };
+    }; // TODO: Define common User, Habit, and Error Swagger schemas here.
 
     const swaggerSpec = swaggerJSDoc(options);
 
