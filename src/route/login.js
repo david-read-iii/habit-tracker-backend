@@ -43,21 +43,11 @@ const { loginUser } = require("../controller/loginController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Invalid email or password
+ *               $ref: "#/components/schemas/Error"
+ *             example:
+ *               error: "Invalid email or password"
  *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal server error
+ *         $ref: "#/components/responses/InternalServerError"
  */
 router.post("/", loginUser);
 

@@ -34,12 +34,68 @@ function setupSwagger(app) {
                         type: "http",
                         scheme: "bearer",
                         bearerFormat: "JWT",
+                    }
+                },
+                schemas: {
+                    Error: {
+                        type: "object",
+                        properties: {
+                            error: {
+                                type: "string",
+                                description: "A description of the error",
+                            },
+                        },
+                        required: ["error"],
                     },
+                },
+                responses: {
+                    // Common 401 error from authentication middleware
+                    UnauthorizedError: {
+                        description: "Unauthorized - Missing token",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Error"
+                                },
+                                example: {
+                                    error: "Missing token"
+                                }
+                            }
+                        }
+                    },
+                    // Common 403 error from authentication middleware
+                    ForbiddenError: {
+                        description: "Forbidden - Invalid or expired token",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Error"
+                                },
+                                example: {
+                                    error: "Invalid or expired token"
+                                }
+                            }
+                        }
+                    },
+                    // Common 500 error used server-wide
+                    InternalServerError: {
+                        description: "Unexpected server error",
+                        content: {
+                            "application/json": {
+                                schema: {
+                                    $ref: "#/components/schemas/Error"
+                                },
+                                example: {
+                                    error: "Internal server error"
+                                }
+                            }
+                        }
+                    }
                 },
             },
         },
         apis: [__dirname + "/../route/*.js"],
-    }; // TODO: Define common User, Habit, and Error Swagger schemas here.
+    }; // TODO: Define common User and Habit Swagger schemas here.
 
     const swaggerSpec = swaggerJSDoc(options);
 

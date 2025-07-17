@@ -47,21 +47,11 @@ const { signupUser } = require("../controller/signupController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Email already in use
+ *               $ref: "#/components/schemas/Error"
+ *             example:
+ *               error: "Email already in use"
  *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal server error
+ *         $ref: "#/components/responses/InternalServerError"
  */
 router.post("/", signupUser);
 

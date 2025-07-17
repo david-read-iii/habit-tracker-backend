@@ -66,41 +66,15 @@ const { addHabit } = require("../controller/addHabitController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Habit name is required
+ *               $ref: "#/components/schemas/Error"
+ *             example:
+ *               error: "Name is required"
  *       401:
- *         description: Unauthorized – missing token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Missing token
+ *         $ref: "#/components/responses/UnauthorizedError"
  *       403:
- *         description: Forbidden – invalid or expired token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Invalid or expired token
+ *         $ref: "#/components/responses/ForbiddenError"
  *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal server error
+ *         $ref: "#/components/responses/InternalServerError"
  */
 router.post("/", authenticateToken, addHabit);
 

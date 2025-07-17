@@ -42,51 +42,23 @@ const { updateTimezone } = require("../controller/timezoneController");
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Timezone is required
+ *               $ref: "#/components/schemas/Error"
+ *             example:
+ *               error: "Timezone is required"
  *       401:
- *         description: Missing JWT token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Missing token
+ *         $ref: "#/components/responses/UnauthorizedError"
  *       403:
- *         description: Invalid or expired JWT token
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Invalid or expired token
+ *         $ref: "#/components/responses/ForbiddenError"
  *       404:
  *         description: User not found
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: User not found
+ *               $ref: "#/components/schemas/Error"
+ *             example:
+ *               error: "User not found"
  *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Internal server error
+ *         $ref: "#/components/responses/InternalServerError"
  */
 router.patch("/", authenticateToken, updateTimezone);
 
