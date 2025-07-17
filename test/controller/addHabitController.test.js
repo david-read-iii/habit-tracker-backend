@@ -1,5 +1,6 @@
 const { addHabit } = require("../../src/controller/addHabitController");
 const Habit = require("../../src/model/Habit");
+const { createMockRes } = require("../testUtils");
 jest.mock("../../src/model/Habit");
 
 describe("addHabit", () => {
@@ -11,10 +12,7 @@ describe("addHabit", () => {
             body: {},
         };
 
-        res = {
-            status: jest.fn().mockReturnThis(),
-            json: jest.fn(),
-        };
+        res = createMockRes();
 
         jest.spyOn(console, "error").mockImplementation(() => { });
     });
