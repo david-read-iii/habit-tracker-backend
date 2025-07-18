@@ -28,3 +28,15 @@ node src/index.js
 ```bash
 brew services stop mongodb/brew/mongodb-community
 ```
+
+## Run Unit Tests
+
+```bash
+npm run test
+```
+
+## Run Unit Test Coverage
+
+```bash
+npx jest --coverage
+```
