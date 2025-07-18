@@ -16,6 +16,8 @@ function loadRoutes(app) {
     app.use("/api/timezone", timezoneRoute);
     const addHabitRoute = require("../route/addHabit");
     app.use("/api/habit", addHabitRoute);
+    const getHabitsRoute = require("../route/getHabits");
+    app.use("/api/habits", getHabitsRoute);
 }
 
 module.exports = loadRoutes;
