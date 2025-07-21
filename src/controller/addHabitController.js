@@ -32,8 +32,15 @@ async function addHabit(req, res) {
 
         await habit.save();
 
+        const cleanHabit = {
+            id: habit._id.toString(),
+            name: habit.name,
+            streak: habit.streak,
+            createdAt: habit.createdAt,
+        };
+
         // TODO: Return lightweight Habit object instead of the entire database object.
-        return res.status(201).json({ message: "Habit created", habit });
+        return res.status(201).json({ message: "Habit created", habit: cleanHabit });
     } catch (err) {
         console.error("Error creating habit:", err);
         return res.status(500).json({ error: "Internal server error" });

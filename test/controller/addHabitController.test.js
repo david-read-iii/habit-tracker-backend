@@ -25,8 +25,11 @@ describe("addHabit", () => {
         req.body.name = "  Drink Water  ";
         const mockSave = jest.fn().mockResolvedValue(true);
         Habit.mockImplementation(() => ({
+            _id: "123",
             userId: "user123",
             name: "Drink Water",
+            streak: 0,
+            createdAt: "2025-07-17T14:23:45.123Z",
             save: mockSave,
         }));
         await addHabit(req, res);
@@ -37,8 +40,10 @@ describe("addHabit", () => {
         expect(res.json).toHaveBeenCalledWith({
             message: "Habit created",
             habit: expect.objectContaining({
-                userId: "user123",
+                id: "123",
                 name: "Drink Water",
+                streak: 0,
+                createdAt: "2025-07-17T14:23:45.123Z"
             }),
         });
     });
