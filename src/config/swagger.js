@@ -49,6 +49,34 @@ function setupSwagger(app) {
                         },
                         required: ["token"],
                     },
+                    // Habit used in habit services.
+                    Habit: {
+                        type: "object",
+                        properties: {
+                            id: {
+                                type: "string",
+                                description: "Habit ID",
+                                example: "64aef2f47b1cfc5a6d3e4a91"
+                            },
+                            name: {
+                                type: "string",
+                                description: "Name of the habit",
+                                example: "Drink water"
+                            },
+                            streak: {
+                                type: "integer",
+                                description: "Current streak count for the habit",
+                                example: 5
+                            },
+                            createdAt: {
+                                type: "string",
+                                format: "date-time",
+                                description: "Timestamp of when the habit was created",
+                                example: "2025-07-18T02:24:56.308Z"
+                            }
+                        },
+                        required: ["id", "name", "streak", "createdAt"]
+                    },
                     // Common error schema used server-wide.
                     Error: {
                         type: "object",
