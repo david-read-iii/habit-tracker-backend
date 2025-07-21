@@ -136,7 +136,7 @@ function setupSwagger(app) {
             },
         },
         apis: [__dirname + "/../route/*.js"],
-    }; // TODO: Define common User and Habit Swagger schemas here.
+    };
 
     const swaggerSpec = swaggerJSDoc(options);
 

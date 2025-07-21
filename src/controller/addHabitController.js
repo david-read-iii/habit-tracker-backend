@@ -32,6 +32,7 @@ async function addHabit(req, res) {
 
         await habit.save();
 
+        // TODO: Return lightweight Habit object instead of the entire database object.
         return res.status(201).json({ message: "Habit created", habit });
     } catch (err) {
         console.error("Error creating habit:", err);
