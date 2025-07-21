@@ -14,7 +14,7 @@ describe("getHabits", () => {
 
         res = createMockRes();
 
-        jest.spyOn(console, "error").mockImplementation(() => { });
+        // jest.spyOn(console, "error").mockImplementation(() => { });
     });
 
     afterEach(() => {
@@ -22,7 +22,20 @@ describe("getHabits", () => {
     });
 
     it("should return habits and nextPage", async () => {
-        const fakeHabits = [{ name: "habit1" }, { name: "habit2" }];
+        const fakeHabits = [
+            {
+                _id: "123",
+                name: "habit1",
+                streak: 0,
+                createdAt: "2025-07-17T12:39:23.898Z"
+            },
+            {
+                _id: "124",
+                name: "habit2",
+                streak: 5,
+                createdAt: "2025-07-17T12:40:40.395Z"
+            },
+        ];
         Habit.find.mockReturnValue({
             skip: jest.fn().mockReturnValue({
                 limit: jest.fn().mockResolvedValue(fakeHabits)
@@ -33,7 +46,20 @@ describe("getHabits", () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            habits: fakeHabits,
+            habits: [
+                {
+                    id: "123",
+                    name: "habit1",
+                    streak: 0,
+                    createdAt: "2025-07-17T12:39:23.898Z"
+                },
+                {
+                    id: "124",
+                    name: "habit2",
+                    streak: 5,
+                    createdAt: "2025-07-17T12:40:40.395Z"
+                },
+            ],
             nextPage: 2
         });
     });
@@ -41,7 +67,20 @@ describe("getHabits", () => {
     it("should return nextPage as null if on last page", async () => {
         req.query.page = "2";
         req.query.limit = "2";
-        const fakeHabits = [{ name: "habit3" }, { name: "habit4" }];
+        const fakeHabits = [
+            {
+                _id: "123",
+                name: "habit1",
+                streak: 0,
+                createdAt: "2025-07-17T12:39:23.898Z"
+            },
+            {
+                _id: "124",
+                name: "habit2",
+                streak: 5,
+                createdAt: "2025-07-17T12:40:40.395Z"
+            },
+        ];
         Habit.countDocuments.mockResolvedValue(4); // totalPages = 2
         Habit.find.mockReturnValue({
             skip: jest.fn().mockReturnValue({
@@ -52,7 +91,20 @@ describe("getHabits", () => {
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
-            habits: fakeHabits,
+            habits: [
+                {
+                    id: "123",
+                    name: "habit1",
+                    streak: 0,
+                    createdAt: "2025-07-17T12:39:23.898Z"
+                },
+                {
+                    id: "124",
+                    name: "habit2",
+                    streak: 5,
+                    createdAt: "2025-07-17T12:40:40.395Z"
+                },
+            ],
             nextPage: null
         });
     });

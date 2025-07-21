@@ -39,10 +39,16 @@ async function getHabits(req, res) {
         }
 
         const habits = await Habit.find({ userId }).skip(skip).limit(limit);
+        const cleanHabits = habits.map(({ _id, name, streak, createdAt }) => ({
+            id: _id.toString(),
+            name,
+            streak,
+            createdAt,
+        }));
         const hasNextPage = page * limit < total;
         const nextPage = hasNextPage ? page + 1 : null;
 
-        res.status(200).json({ habits, nextPage });
+        res.status(200).json({ habits: cleanHabits, nextPage });
     } catch (error) {
         console.error("Error fetching habits:", error);
         res.status(500).json({ error: "Internal server error" });
