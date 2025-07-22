@@ -3,17 +3,14 @@ const Habit = require("../model/Habit");
 /**
  * Deletes a habit for the authenticated user.
  *
- * @async
- * @function deleteHabit
  * @param {Object} req - Express request object.
- * @param {Object} req.user - Authenticated user object.
  * @param {string} req.user.userId - The ID of the authenticated user.
- * @param {Object} req.params - URL parameters.
  * @param {string} req.params.id - The ID of the habit to delete.
  * @param {Object} res - Express response object.
- * @returns {Object} JSON response indicating success or failure.
- * @throws {404} Returns 404 status if no habit found.
- * @throws {500} Returns 500 status if an internal error occurs.
+ * @returns {Object} JSON response:
+ *   - 200: Habit created
+ *   - 404: Habit not found in database
+ *   - 500: Internal server error
  */
 async function deleteHabit(req, res) {
     try {

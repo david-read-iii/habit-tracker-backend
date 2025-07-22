@@ -5,26 +5,15 @@ const User = require("../model/User");
 /**
  * Handles user signup by creating a new account and returning a JWT token.
  * 
- * This function:
- * - Validates that the email is not already in use
- * - Hashes the user's password for secure storage
- * - Saves the new user to the database
- * - Issues a JSON Web Token (JWT) for client authentication
- * 
- * Expects `email`, `password`, and `timezone` in the request body.
- * Returns a 201 response with a JWT if successful.
- * 
- * @param {Object} req - Express request object
- * @param {string} req.body.email - The user's email address (must be unique)
- * @param {string} req.body.password - The user's plain text password
- * @param {string} req.body.timezone - The user's preferred timezone (e.g., "America/New_York")
- * 
- * @param {Object} res - Express response object
- * 
+ * @param {Object} req - Express request object.
+ * @param {string} req.body.email - The user's email address (must be unique).
+ * @param {string} req.body.password - The user's plain text password.
+ * @param {string} req.body.timezone - The user's preferred timezone (e.g., "America/New_York").
+ * @param {Object} res - Express response object.
  * @returns {Object} JSON response:
- *   - 201: `{ token: <JWT> }` on successful signup
- *   - 400: `{ error: "Email Already In Use" }` if email is taken
- *   - 500: `{ error: "Internal Server Error" }` on unexpected failure
+ *   - 201: Signup successful and authentication token appended to body.
+ *   - 400: Email already used.
+ *   - 500: Internal server error.
  */
 async function signupUser(req, res) {
     try {

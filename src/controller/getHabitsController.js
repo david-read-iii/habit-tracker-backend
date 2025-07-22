@@ -4,17 +4,15 @@ const { toCleanHabit } = require("../util/toCleanHabit");
 /**
  * Retrieves a paginated list of habits for the authenticated user.
  * 
- * Query Parameters:
- * - page (number): The current page number (must be > 0).
- * - limit (number): The number of habits per page (must be > 0).
- * 
- * Response:
- * - 200: Returns an array of habits and the next page number (or null if none).
- * - 400: If page or limit are invalid, or if the requested page exceeds available pages.
- * - 500: On server error.
- * 
- * @param {import("express").Request} req - Express request object (expects `req.user.userId`)
- * @param {import("express").Response} res - Express response object
+ * @param {Object} req - Express request object.
+ * @param {string} req.user.userId - The ID of the authenticated user.
+ * @param {number} req.query.page - Page number to return.
+ * @param {number} req.query.limit - Number of habits to return.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response:
+ *   - 200: Habits returned successfully.
+ *   - 400: Page or limit query params invalid.
+ *   - 500: Internal server error.
  */
 async function getHabits(req, res) {
     try {

@@ -4,18 +4,15 @@ const { toCleanHabit } = require("../util/toCleanHabit");
 /**
  * Creates a new habit for the authenticated user.
  * 
- * Expects a valid JWT-authenticated request (with `req.user.userId`) and a `name` in the request body.
- * 
  * @param {Object} req - Express request object
  * @param {string} req.user.userId - The authenticated user's ID (injected by JWT middleware)
  * @param {string} req.body.name - The name of the habit to create
- * 
  * @param {Object} res - Express response object
  * 
  * @returns {Object} JSON response:
- *   - 201: `{ message: "Habit created", habit: <habitObject> }`
- *   - 400: `{ error: "Habit name is required" }` if name is missing
- *   - 500: `{ error: "Internal server error" }` on failure
+ *   - 201: Habit created
+ *   - 400: Habit name is missing
+ *   - 500: Internal server error
  */
 async function addHabit(req, res) {
     try {

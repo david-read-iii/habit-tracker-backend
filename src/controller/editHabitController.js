@@ -3,17 +3,17 @@ const { toCleanHabit } = require("../util/toCleanHabit");
 
 /**
  * Edits the name of an existing habit for the authenticated user.
- *
- * Expects:
- * - req.user.userId: the ID of the authenticated user (from middleware).
- * - req.params.id: the ID of the habit to edit.
- * - req.body.name: the new name for the habit.
- *
- * Returns:
- * - 200 OK with updated habit if successful.
- * - 400 Bad Request if the name is missing or empty.
- * - 404 Not Found if the habit does not exist for the user.
- * - 500 Internal Server Error for other issues.
+ * 
+ * @param {Object} req - Express request object.
+ * @param {string} req.user.userId - The ID of the authenticated user.
+ * @param {string} req.params.id - The ID of the habit to edit.
+ * @param {string} req.body.name - New name for the habit. 
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response:
+ *   - 200: Habit updated.
+ *   - 400: Invalid habit name provided.
+ *   - 404: Habit not found in database.
+ *   - 500: Internal server error.
  */
 async function editHabit(req, res) {
     try {

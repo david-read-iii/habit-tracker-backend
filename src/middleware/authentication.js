@@ -2,19 +2,13 @@ const jwt = require("jsonwebtoken");
 
 /**
  * Middleware to authenticate requests using a JWT (JSON Web Token).
- *
- * Expects the token to be provided in the `Authorization` header in the format: "Bearer <token>".
  * 
- * If the token is valid, it attaches the decoded payload (e.g. userId) to `req.user`
- * and passes control to the next middleware or route handler.
- * 
- * If the token is missing or invalid, it responds with an appropriate HTTP error:
- * - 401 Unauthorized: No token was provided
- * - 403 Forbidden: Token is invalid or expired
- * 
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @param {Function} next - Callback to pass control to the next middleware
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Callback to pass control to the next middleware.
+ * @returns {Object} JSON Response:
+ *   - 401: Missing token.
+ *   - 403: Invalid or expired token.
  */
 function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization;

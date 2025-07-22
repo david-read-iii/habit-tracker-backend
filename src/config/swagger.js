@@ -4,12 +4,6 @@ const swaggerUi = require("swagger-ui-express");
 /**
  * Sets up Swagger UI and API documentation middleware on the given Express app.
  * 
- * This function configures Swagger using swagger-jsdoc with API definitions
- * specified in the route files, then registers the Swagger UI middleware
- * at the `/api-docs` endpoint.
- * 
- * It also logs the URL where the Swagger UI can be accessed.
- * 
  * @param {import("express").Express} app - The Express application instance.
  */
 function setupSwagger(app) {
