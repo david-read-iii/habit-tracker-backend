@@ -4,7 +4,7 @@ const app = express();
 // Loads environment variables.
 require("dotenv").config();
 
-// Lets you parse JSON requests
+// Lets you parse JSON requests.
 app.use(express.json());
 
 // Setup MongoDB connection.
@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI)
             setupSwagger(app);
         }
 
-        // Load routes.
+        // Load all routes.
         loadRoutes(app);
 
         // Start server after DB connection.

@@ -5,24 +5,14 @@ const jwt = require("jsonwebtoken");
 /**
  * Authenticates a user and returns a JWT if login is successful.
  * 
- * This function:
- * - Looks up the user by email
- * - Compares the provided password with the stored hashed password
- * - Returns a signed JWT if authentication is successful
- * 
- * Expects `email` and `password` in the request body.
- * Returns appropriate error responses for invalid credentials or server errors.
- * 
- * @param {Object} req - Express request object
- * @param {string} req.body.email - The user's email address
- * @param {string} req.body.password - The user's plain text password
- * 
- * @param {Object} res - Express response object
- * 
+ * @param {Object} req - Express request object.
+ * @param {string} req.body.email - The user's email address.
+ * @param {string} req.body.password - The user's plain text password.
+ * @param {Object} res - Express response object.
  * @returns {Object} JSON response:
- *   - 200: `{ token: <JWT> }` on successful login
- *   - 400: `{ error: "Invalid email or password" }` for bad credentials
- *   - 500: `{ error: "Internal server error" }` on unexpected failure
+ *   - 200: User logged in and authentication token appended in body.
+ *   - 400: Invalid email or password.
+ *   - 500: Internal server error.
  */
 async function loginUser(req, res) {
     try {

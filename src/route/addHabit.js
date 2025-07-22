@@ -1,16 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const { authenticateToken } = require("../middleware/authentication");
-const { updateTimezone } = require("../controller/timezoneController");
+const { addHabit } = require("../controller/addHabitController");
 
 /**
  * @swagger
- * /api/timezone:
- *   patch:
- *     summary: Update the timezone for the authenticated user
- *     tags: [User]
+ * /api/habit:
+ *   post:
+ *     summary: Create a new habit for the authenticated user
  *     security:
  *       - bearerAuth: []
+ *     tags:
+ *       - Habits
  *     requestBody:
  *       required: true
  *       content:
@@ -18,14 +19,14 @@ const { updateTimezone } = require("../controller/timezoneController");
  *           schema:
  *             type: object
  *             required:
- *               - timezone
+ *               - name
  *             properties:
- *               timezone:
+ *               name:
  *                 type: string
- *                 example: America/New_York
+ *                 example: Drink water
  *     responses:
- *       200:
- *         description: Timezone successfully updated
+ *       201:
+ *         description: Habit successfully created
  *         content:
  *           application/json:
  *             schema:
@@ -33,34 +34,25 @@ const { updateTimezone } = require("../controller/timezoneController");
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Timezone updated
- *                 timezone:
- *                   type: string
- *                   example: America/New_York
- *               required: ["message", "timezone"]
+ *                   example: Habit created
+ *                 habit:
+ *                   $ref: "#/components/schemas/Habit"
+ *               required: ["message", "habit"]
  *       400:
- *         description: Missing timezone in request body
+ *         description: Bad request – missing habit name
  *         content:
  *           application/json:
  *             schema:
  *               $ref: "#/components/schemas/Error"
  *             example:
- *               error: "Timezone is required"
+ *               error: "Name is required"
  *       401:
  *         $ref: "#/components/responses/UnauthorizedError"
  *       403:
  *         $ref: "#/components/responses/ForbiddenError"
- *       404:
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: "#/components/schemas/Error"
- *             example:
- *               error: "User not found"
  *       500:
  *         $ref: "#/components/responses/InternalServerError"
  */
-router.patch("/", authenticateToken, updateTimezone);
+router.post("/", authenticateToken, addHabit);
 
 module.exports = router;

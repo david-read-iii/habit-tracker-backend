@@ -3,23 +3,15 @@ const User = require("../model/User");
 /**
  * Updates the authenticated user's timezone.
  * 
- * This route is protected by JWT authentication and expects the user's ID 
- * to be attached to `req.user` by middleware. It checks for a valid timezone 
- * in the request body and updates the user's record. If the user is not found 
- * or the timezone is missing, it returns appropriate 4xx errors.
- * 
- * Future functionality may include resetting the user's habit streak when timezone changes.
- * 
- * @param {Object} req - Express request object
- * @param {Object} req.user - Decoded JWT payload containing the userId
- * @param {string} req.body.timezone - The new timezone to set (e.g., "America/New_York")
- * @param {Object} res - Express response object
- * 
+ * @param {Object} req - Express request object.
+ * @param {Object} req.user - Decoded JWT payload containing the userId.
+ * @param {string} req.body.timezone - The new timezone to set (e.g., "America/New_York").
+ * @param {Object} res - Express response object.
  * @returns {Object} JSON response:
- *   - 200: `{ message: "Timezone updated", timezone: "..." }`
- *   - 400: `{ error: "Timezone is required" }`
- *   - 404: `{ error: "User not found" }`
- *   - 500: `{ error: "Internal server error" }`
+ *   - 200: Timezone updated successfully.
+ *   - 400: Invalid timezone provided.
+ *   - 404: User not found in database.
+ *   - 500: Internal server error.
  */
 async function updateTimezone(req, res) {
     try {
