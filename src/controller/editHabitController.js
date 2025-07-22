@@ -1,4 +1,5 @@
 const Habit = require("../model/Habit");
+const { toCleanHabit } = require("../util/toCleanHabit");
 
 /**
  * Edits the name of an existing habit for the authenticated user.
@@ -33,14 +34,7 @@ async function editHabit(req, res) {
         habit.name = name.trim();
         await habit.save();
 
-        const cleanHabit = {
-            id: habit._id.toString(),
-            name: habit.name,
-            streak: habit.streak,
-            createdAt: habit.createdAt,
-        };
-
-        return res.status(200).json({ message: "Habit updated", habit: cleanHabit });
+        return res.status(200).json({ message: "Habit updated", habit: toCleanHabit(habit) });
     } catch (err) {
         console.error("Error updating habit:", err);
         return res.status(500).json({ error: "Internal server error" });

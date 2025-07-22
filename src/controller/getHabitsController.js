@@ -1,4 +1,5 @@
 const Habit = require("../model/Habit");
+const { toCleanHabit } = require("../util/toCleanHabit");
 
 /**
  * Retrieves a paginated list of habits for the authenticated user.
@@ -39,12 +40,7 @@ async function getHabits(req, res) {
         }
 
         const habits = await Habit.find({ userId }).skip(skip).limit(limit);
-        const cleanHabits = habits.map(({ _id, name, streak, createdAt }) => ({
-            id: _id.toString(),
-            name,
-            streak,
-            createdAt,
-        }));
+        const cleanHabits = habits.map(toCleanHabit);
         const hasNextPage = page * limit < total;
         const nextPage = hasNextPage ? page + 1 : null;
 
