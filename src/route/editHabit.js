@@ -7,7 +7,7 @@ const { editHabit } = require("../controller/editHabitController");
  * @swagger
  * /api/habit/{id}:
  *   patch:
- *     summary: Update an existing habit
+ *     summary: Update an existing habit for the authenticated user
  *     description: Authenticated route to update the name of a specific habit.
  *     tags:
  *       - Habits

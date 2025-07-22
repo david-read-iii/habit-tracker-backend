@@ -7,7 +7,7 @@ const { updateTimezone } = require("../controller/timezoneController");
  * @swagger
  * /api/timezone:
  *   patch:
- *     summary: Update the authenticated user's timezone
+ *     summary: Update the timezone for the authenticated user
  *     tags: [User]
  *     security:
  *       - bearerAuth: []
@@ -37,6 +37,7 @@ const { updateTimezone } = require("../controller/timezoneController");
  *                 timezone:
  *                   type: string
  *                   example: America/New_York
+ *               required: ["message", "timezone"]
  *       400:
  *         description: Missing timezone in request body
  *         content:

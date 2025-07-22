@@ -7,7 +7,7 @@ const { deleteHabit } = require("../controller/deleteHabitController");
  * @swagger
  * /api/habit/{id}:
  *   delete:
- *     summary: Delete a habit
+ *     summary: Delete a habit for the authenticated user
  *     description: Deletes a habit belonging to the authenticated user.
  *     tags:
  *       - Habits

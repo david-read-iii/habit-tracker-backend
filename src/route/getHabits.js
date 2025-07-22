@@ -7,7 +7,7 @@ const { getHabits } = require("../controller/getHabitsController");
  * @swagger
  * /api/habits:
  *   get:
- *     summary: Get paginated user habits
+ *     summary: Get paginated habits for the authenticated user
  *     tags:
  *       - Habits
  *     security:
