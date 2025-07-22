@@ -20,6 +20,8 @@ function loadRoutes(app) {
     app.use("/api/habits", getHabitsRoute);
     const editHabitRoute = require("../route/editHabit");
     app.use("/api/habit", editHabitRoute);
+    const deleteHabitRoute = require("../route/deleteHabit");
+    app.use("/api/habit", deleteHabitRoute);
 }
 
 module.exports = loadRoutes;

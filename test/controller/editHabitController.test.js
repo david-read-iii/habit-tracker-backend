@@ -61,7 +61,7 @@ describe("editHabit", () => {
 
         expect(Habit.findOne).toHaveBeenCalledWith({ _id: "habit123", userId: "user123" });
         expect(res.status).toHaveBeenCalledWith(404);
-        expect(res.json).toHaveBeenCalledWith({ message: "Habit not found" });
+        expect(res.json).toHaveBeenCalledWith({ error: "Habit not found" });
     });
 
     it("should return 500 if an error occurs", async () => {

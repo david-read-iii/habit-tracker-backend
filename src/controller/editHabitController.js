@@ -28,7 +28,7 @@ async function editHabit(req, res) {
         const habit = await Habit.findOne({ _id: id, userId });
 
         if (!habit) {
-            return res.status(404).json({ message: "Habit not found" });
+            return res.status(404).json({ error: "Habit not found" });
         }
 
         habit.name = name.trim();
