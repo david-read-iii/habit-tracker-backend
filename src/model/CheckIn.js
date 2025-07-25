@@ -12,11 +12,14 @@ const checkInSchema = new mongoose.Schema({
         required: true,
     },
     habitDay: {
-        type: Date,
+        type: String,
         required: true
     }
 }, {
     timestamps: true
 });
+
+// Prevent duplicate check ins for the same habitDay.
+checkInSchema.index({ userId: 1, habitId: 1, habitDay: 1 }, { unique: true });
 
 module.exports = mongoose.model("CheckIn", checkInSchema);

@@ -17,7 +17,7 @@ describe("loginUser", () => {
     it("returns 200 and token for valid credentials", async () => {
         const req = { body: { email: "test@example.com", password: "password123" } };
         const res = createMockRes();
-        const mockUser = { _id: "user123", password: "hashedPassword" };
+        const mockUser = { _id: "user123", password: "hashedPassword", timezone: "America/New_York" };
         User.findOne = jest.fn().mockResolvedValue(mockUser);
         bcrypt.compare = jest.fn().mockResolvedValue(true);
         jwt.sign = jest.fn().mockReturnValue("fake-jwt-token");
@@ -27,7 +27,7 @@ describe("loginUser", () => {
         expect(User.findOne).toHaveBeenCalledWith({ email: "test@example.com" });
         expect(bcrypt.compare).toHaveBeenCalledWith("password123", "hashedPassword");
         expect(jwt.sign).toHaveBeenCalledWith(
-            { userId: "user123" },
+            { userId: "user123", timezone: "America/New_York" },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );

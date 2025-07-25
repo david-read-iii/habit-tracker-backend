@@ -19,7 +19,7 @@ describe("signupUser", () => {
 
     it("should return 201 and a token on successful signup", async () => {
         const req = {
-            body: { email: "test@example.com", password: "123456", timezone: "UTC" },
+            body: { email: "test@example.com", password: "123456", timezone: "America/New_York" },
         };
         const res = createMockRes();
         User.findOne.mockResolvedValue(null);
@@ -29,13 +29,14 @@ describe("signupUser", () => {
         User.mockImplementation(() => ({
             save: mockSave,
             _id: "user123",
+            timezone: "America/New_York"
         }));
         await signupUser(req, res);
 
         expect(User.findOne).toHaveBeenCalledWith({ email: "test@example.com" });
         expect(bcrypt.hash).toHaveBeenCalledWith("123456", 10);
         expect(jwt.sign).toHaveBeenCalledWith(
-            { userId: "user123" },
+            { userId: "user123", timezone: "America/New_York" },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );

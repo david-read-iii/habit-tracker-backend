@@ -35,9 +35,10 @@ async function signupUser(req, res) {
         });
         await user.save();
 
+        // TODO: Consolidate common token generation logic to a util.
         // Generate JWT
         const token = jwt.sign(
-            { userId: user._id },
+            { userId: user._id, timezone: user.timezone },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
