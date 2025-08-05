@@ -2,6 +2,20 @@ const CheckIn = require("../model/CheckIn");
 const { toCleanCheckIn } = require("../util/toCleanCheckIn");
 const moment = require("moment-timezone");
 
+/**
+ * Adds a new check in for the authenticated user.
+ * 
+ * @param {Object} req - Express request object
+ * @param {string} req.user.userId - The authenticated user's ID (injected by JWT middleware)
+ * @param {string} req.user.timezone - The authenticated user's timezone (injected by JWT middleware)
+ * @param {string} req.body.habitId - The id associated with the habit for which to create a check in for
+ * @param {Object} res - Express response object
+ * 
+ * @returns {Object} JSON response:
+ *   - 201: Check in created
+ *   - 400: Habit id missing or already checked in for today
+ *   - 500: Internal server error
+ */
 async function addCheckIn(req, res) {
     try {
         const { userId, timezone } = req.user;
