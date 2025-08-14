@@ -30,7 +30,7 @@ async function addHabit(req, res) {
 
         await habit.save();
 
-        return res.status(201).json({ message: "Habit created", habit: toCleanHabit(habit) });
+        return res.status(201).json({ message: "Habit created", habit: toCleanHabit(habit, 0) });
     } catch (err) {
         console.error("Error creating habit:", err);
         return res.status(500).json({ error: "Internal server error" });

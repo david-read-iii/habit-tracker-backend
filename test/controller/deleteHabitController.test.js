@@ -1,7 +1,9 @@
 const { deleteHabit } = require("../../src/controller/deleteHabitController");
 const Habit = require("../../src/model/Habit");
+const CheckIn = require("../../src/model/CheckIn");
 const { createMockRes } = require("../testUtils");
 jest.mock("../../src/model/Habit");
+jest.mock("../../src/model/CheckIn");
 
 describe("deleteHabit", () => {
     let req, res;
@@ -33,6 +35,7 @@ describe("deleteHabit", () => {
             _id: "habit456",
             userId: "user123",
         });
+        expect(CheckIn.deleteMany).toHaveBeenCalledWith({ habitId: "habit456" });
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ message: "Habit deleted" });
     });

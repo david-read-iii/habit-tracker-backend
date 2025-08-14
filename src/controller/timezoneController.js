@@ -1,7 +1,9 @@
 const User = require("../model/User");
+const CheckIn = require("../model/CheckIn");
 
 /**
- * Updates the authenticated user's timezone.
+ * Updates the authenticated user's timezone. All a user's streaks are deleted on timezone change to avoid 
+ * complicated logic in streak calculation.
  * 
  * @param {Object} req - Express request object.
  * @param {Object} req.user - Decoded JWT payload containing the userId.
@@ -22,16 +24,17 @@ async function updateTimezone(req, res) {
             return res.status(400).json({ error: "Timezone is required" });
         }
 
-        // TODO: Reset streaks logic would go here (once you track them). For now, just update the timezone.
         const user = await User.findByIdAndUpdate(
             userId,
-            { timezone /* , streak: 0 */ },
+            { timezone },
             { new: true }
         );
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
+
+        await CheckIn.deleteMany({ userId: userId });
 
         return res.status(200).json({ message: "Timezone updated", timezone: user.timezone });
     } catch (err) {

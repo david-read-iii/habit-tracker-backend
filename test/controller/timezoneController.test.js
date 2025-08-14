@@ -1,8 +1,10 @@
 const { updateTimezone } = require("../../src/controller/timezoneController");
 const User = require("../../src/model/User");
+const CheckIn = require("../../src/model/CheckIn");
 const { createMockRes } = require("../testUtils");
 
 jest.mock("../../src/model/User");
+jest.mock("../../src/model/CheckIn");
 
 describe("updateTimezone", () => {
     let req, res;
@@ -31,6 +33,9 @@ describe("updateTimezone", () => {
             "user123",
             { timezone: "America/New_York" },
             { new: true }
+        );
+        expect(CheckIn.deleteMany).toHaveBeenCalledWith(
+            { userId: "user123" }
         );
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({

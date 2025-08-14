@@ -69,7 +69,7 @@ function setupSwagger(app) {
                                 example: "2025-07-18T02:24:56.308Z"
                             }
                         },
-                        required: ["id", "name", "streak", "createdAt"]
+                        required: ["id", "name", "createdAt"]
                     },
                     // Common error schema used server-wide.
                     Error: {
