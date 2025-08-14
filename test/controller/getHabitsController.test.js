@@ -1,7 +1,9 @@
 const { getHabits } = require("../../src/controller/getHabitsController");
 const Habit = require("../../src/model/Habit");
+const CheckIn = require("../../src/model/CheckIn");
 const { createMockRes } = require("../testUtils");
 jest.mock("../../src/model/Habit");
+jest.mock("../../src/model/CheckIn");
 
 describe("getHabits", () => {
     let req, res;
@@ -14,10 +16,14 @@ describe("getHabits", () => {
 
         res = createMockRes();
 
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date("2025-08-13T00:00:00Z"));
+
         jest.spyOn(console, "error").mockImplementation(() => { });
     });
 
     afterEach(() => {
+        jest.useRealTimers();
         jest.restoreAllMocks();
     });
 
@@ -26,13 +32,11 @@ describe("getHabits", () => {
             {
                 _id: "123",
                 name: "habit1",
-                streak: 0,
                 createdAt: "2025-07-17T12:39:23.898Z"
             },
             {
                 _id: "124",
                 name: "habit2",
-                streak: 5,
                 createdAt: "2025-07-17T12:40:40.395Z"
             },
         ];
@@ -42,6 +46,19 @@ describe("getHabits", () => {
             })
         });
         Habit.countDocuments.mockResolvedValue(5);
+        CheckIn.find
+            .mockReturnValueOnce({
+                sort: jest.fn().mockResolvedValue([
+                    { habitDay: "2025-08-13" }, // today
+                    { habitDay: "2025-08-12" }, // yesterday
+                ])
+            })
+            .mockReturnValueOnce({
+                sort: jest.fn().mockResolvedValue([
+                    { habitDay: "2025-08-12" } // missed today
+                ])
+            });
+
         await getHabits(req, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -50,14 +67,14 @@ describe("getHabits", () => {
                 {
                     id: "123",
                     name: "habit1",
-                    streak: 0,
-                    createdAt: "2025-07-17T12:39:23.898Z"
+                    createdAt: "2025-07-17T12:39:23.898Z",
+                    streak: 2
                 },
                 {
                     id: "124",
                     name: "habit2",
-                    streak: 5,
-                    createdAt: "2025-07-17T12:40:40.395Z"
+                    createdAt: "2025-07-17T12:40:40.395Z",
+                    streak: 0
                 },
             ],
             nextPage: 2
@@ -87,6 +104,19 @@ describe("getHabits", () => {
                 limit: jest.fn().mockResolvedValue(fakeHabits)
             })
         });
+        CheckIn.find
+            .mockReturnValueOnce({
+                sort: jest.fn().mockResolvedValue([
+                    { habitDay: "2025-08-13" }, // today
+                    { habitDay: "2025-08-12" }, // yesterday
+                ])
+            })
+            .mockReturnValueOnce({
+                sort: jest.fn().mockResolvedValue([
+                    { habitDay: "2025-08-12" } // missed today
+                ])
+            });
+
         await getHabits(req, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -95,14 +125,14 @@ describe("getHabits", () => {
                 {
                     id: "123",
                     name: "habit1",
-                    streak: 0,
-                    createdAt: "2025-07-17T12:39:23.898Z"
+                    createdAt: "2025-07-17T12:39:23.898Z",
+                    streak: 2,
                 },
                 {
                     id: "124",
                     name: "habit2",
-                    streak: 5,
-                    createdAt: "2025-07-17T12:40:40.395Z"
+                    createdAt: "2025-07-17T12:40:40.395Z",
+                    streak: 0
                 },
             ],
             nextPage: null

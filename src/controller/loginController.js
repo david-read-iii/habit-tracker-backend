@@ -1,6 +1,6 @@
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { signJwt } = require("../util/signJwt");
 
 /**
  * Authenticates a user and returns a JWT if login is successful.
@@ -28,12 +28,7 @@ async function loginUser(req, res) {
             return res.status(400).json({ error: "Invalid email or password" });
         }
 
-        const token = jwt.sign(
-            { userId: user._id },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
-        );
-
+        const token = signJwt(user);
         return res.status(200).json({ token });
     } catch (err) {
         console.error("500 error:", err);

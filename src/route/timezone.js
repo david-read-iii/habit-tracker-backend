@@ -7,7 +7,7 @@ const { updateTimezone } = require("../controller/timezoneController");
  * @swagger
  * /api/timezone:
  *   patch:
- *     summary: Update the timezone for the authenticated user
+ *     summary: Update the timezone for the authenticated user. This action also resets the user's streaks to avoid confusing streak calculation logic for each habit.
  *     tags: [User]
  *     security:
  *       - bearerAuth: []

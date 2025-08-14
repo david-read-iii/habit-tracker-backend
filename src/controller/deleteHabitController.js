@@ -1,4 +1,5 @@
 const Habit = require("../model/Habit");
+const CheckIn = require("../model/CheckIn");
 
 /**
  * Deletes a habit for the authenticated user.
@@ -22,6 +23,8 @@ async function deleteHabit(req, res) {
         if (!habit) {
             return res.status(404).json({ error: "Habit not found" });
         }
+
+        await CheckIn.deleteMany({ habitId: id });
 
         return res.status(200).json({ message: "Habit deleted" });
     } catch (err) {

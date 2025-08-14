@@ -19,6 +19,8 @@ function loadRoutes(app) {
     app.use("/api/habit", editHabitRoute);
     const deleteHabitRoute = require("../route/deleteHabit");
     app.use("/api/habit", deleteHabitRoute);
+    const addCheckInRoute = require("../route/addCheckIn");
+    app.use("/api/check-in", addCheckInRoute);
 }
 
 module.exports = loadRoutes;

@@ -14,18 +14,17 @@ describe("toCleanHabit", () => {
         const inputHabit = {
             _id: { toString: () => "abc123" },
             name: "Read books",
-            streak: 5,
             createdAt: new Date("2025-07-20T10:00:00Z"),
             __v: 0, // should be ignored
             userId: "user123", // should be ignored
         };
-        const result = toCleanHabit(inputHabit);
+        const result = toCleanHabit(inputHabit, 5);
 
         expect(result).toEqual({
             id: "abc123",
             name: "Read books",
-            streak: 5,
             createdAt: new Date("2025-07-20T10:00:00Z"),
+            streak: 5,
         });
     });
 
@@ -33,26 +32,24 @@ describe("toCleanHabit", () => {
         const inputHabit = {
             _id: { toString: () => "xyz789" },
             name: "",
-            streak: 0,
             createdAt: null,
         };
-        const result = toCleanHabit(inputHabit);
+        const result = toCleanHabit(inputHabit, 0);
 
         expect(result).toEqual({
             id: "xyz789",
             name: "",
-            streak: 0,
             createdAt: null,
+            streak: 0,
         });
     });
 
     it("should throw if _id is missing", () => {
         const inputHabit = {
             name: "No ID",
-            streak: 1,
             createdAt: new Date(),
         };
 
-        expect(() => toCleanHabit(inputHabit)).toThrow();
+        expect(() => toCleanHabit(inputHabit, 0)).toThrow();
     });
 });

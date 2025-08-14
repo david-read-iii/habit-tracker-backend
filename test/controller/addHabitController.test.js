@@ -28,7 +28,6 @@ describe("addHabit", () => {
             _id: "123",
             userId: "user123",
             name: "Drink Water",
-            streak: 0,
             createdAt: "2025-07-17T14:23:45.123Z",
             save: mockSave,
         }));
@@ -42,8 +41,8 @@ describe("addHabit", () => {
             habit: expect.objectContaining({
                 id: "123",
                 name: "Drink Water",
-                streak: 0,
-                createdAt: "2025-07-17T14:23:45.123Z"
+                createdAt: "2025-07-17T14:23:45.123Z",
+                streak: 0
             }),
         });
     });

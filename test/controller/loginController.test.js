@@ -1,8 +1,10 @@
 const { loginUser } = require("../../src/controller/loginController");
 const User = require("../../src/model/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { signJwt } = require("../../src/util/signJwt");
 const { createMockRes } = require("../testUtils");
+
+jest.mock("../../src/util/signJwt");
 
 describe("loginUser", () => {
 
@@ -17,20 +19,18 @@ describe("loginUser", () => {
     it("returns 200 and token for valid credentials", async () => {
         const req = { body: { email: "test@example.com", password: "password123" } };
         const res = createMockRes();
-        const mockUser = { _id: "user123", password: "hashedPassword" };
+        const mockUser = { _id: "user123", password: "hashedPassword", timezone: "America/New_York" };
         User.findOne = jest.fn().mockResolvedValue(mockUser);
         bcrypt.compare = jest.fn().mockResolvedValue(true);
-        jwt.sign = jest.fn().mockReturnValue("fake-jwt-token");
-
+        signJwt.mockReturnValue("fake-jwt-token");
         await loginUser(req, res);
 
         expect(User.findOne).toHaveBeenCalledWith({ email: "test@example.com" });
         expect(bcrypt.compare).toHaveBeenCalledWith("password123", "hashedPassword");
-        expect(jwt.sign).toHaveBeenCalledWith(
-            { userId: "user123" },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
-        );
+        expect(signJwt).toHaveBeenCalledWith(expect.objectContaining({
+            _id: "user123",
+            timezone: "America/New_York"
+        }));
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ token: "fake-jwt-token" });
     });

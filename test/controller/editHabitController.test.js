@@ -26,7 +26,6 @@ describe("editHabit", () => {
         const mockHabit = {
             _id: "habit123",
             name: "Old Habit Name",
-            streak: 3,
             createdAt: new Date("2023-01-01"),
             save: jest.fn(),
         };
@@ -41,7 +40,6 @@ describe("editHabit", () => {
             habit: {
                 id: "habit123",
                 name: "New Habit Name",
-                streak: 3,
                 createdAt: new Date("2023-01-01"),
             },
         });

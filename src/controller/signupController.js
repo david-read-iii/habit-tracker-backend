@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { signJwt } = require("../util/signJwt");
 const User = require("../model/User");
 
 /**
@@ -35,13 +35,7 @@ async function signupUser(req, res) {
         });
         await user.save();
 
-        // Generate JWT
-        const token = jwt.sign(
-            { userId: user._id },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
-        );
-
+        const token = signJwt(user);
         return res.status(201).json({ token });
     } catch (err) {
         console.error("500 error:", err);

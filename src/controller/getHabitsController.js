@@ -1,4 +1,5 @@
 const Habit = require("../model/Habit");
+const CheckIn = require("../model/CheckIn");
 const { toCleanHabit } = require("../util/toCleanHabit");
 
 /**
@@ -38,11 +39,44 @@ async function getHabits(req, res) {
         }
 
         const habits = await Habit.find({ userId }).skip(skip).limit(limit);
-        const cleanHabits = habits.map(toCleanHabit);
+
+        // Calculate streak for each habit
+        const habitsWithStreaks = await Promise.all(
+            habits.map(async (habit) => {
+                // Fetch recent check-ins for this habit (last 30 days for efficiency)
+                const recentCheckIns = await CheckIn
+                    .find({ habitId: habit._id })
+                    .sort({ habitDay: -1 }); // Newest first
+
+                // Compute streak
+                let streak = 0;
+                const today = new Date();
+                const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
+
+                let expectedDate = new Date(todayStr);
+
+                for (const checkIn of recentCheckIns) {
+                    const checkInDate = new Date(checkIn.habitDay);
+
+                    // If check-in matches expected date, streak++
+                    if (checkInDate.getTime() === expectedDate.getTime()) {
+                        streak++;
+                        // Move to previous day
+                        expectedDate.setDate(expectedDate.getDate() - 1);
+                    } else {
+                        // Break if a day was missed
+                        break;
+                    }
+                }
+
+                return toCleanHabit(habit, streak);
+            })
+        );
+
         const hasNextPage = page * limit < total;
         const nextPage = hasNextPage ? page + 1 : null;
 
-        res.status(200).json({ habits: cleanHabits, nextPage });
+        res.status(200).json({ habits: habitsWithStreaks, nextPage });
     } catch (error) {
         console.error("Error fetching habits:", error);
         res.status(500).json({ error: "Internal server error" });
