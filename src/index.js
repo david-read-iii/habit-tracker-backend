@@ -25,8 +25,9 @@ mongoose.connect(process.env.MONGO_URI)
 
         // Start server after DB connection.
         const PORT = process.env.PORT;
-        app.listen(PORT, () => {
-            console.log(`Server listening on port ${PORT}`);
+        const HOST = process.env.NODE_ENV === "development" ? "0.0.0.0" : "localhost";
+        app.listen(PORT, HOST, () => {
+            console.log(`Server listening on ${HOST}:${PORT}`);
         });
 
     })
