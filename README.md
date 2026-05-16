@@ -73,14 +73,14 @@ coverage/                      # Test coverage reports
 
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|----------------|
-| **POST** | `/auth/signup` | Register a new user | ❌ |
-| **POST** | `/auth/login` | Authenticate and receive JWT | ❌ |
-| **GET** | `/habits` | Retrieve all habits for user | ✅ |
-| **POST** | `/habits/add` | Create a new habit | ✅ |
-| **PUT** | `/habits/edit` | Update an existing habit | ✅ |
-| **DELETE** | `/habits/:id` | Delete a habit | ✅ |
-| **POST** | `/check-in/add` | Record a habit check-in | ✅ |
-| **GET** | `/timezone` | Get current server timezone | ✅ |
+| **POST** | `/api/signup` | Register a new user | ❌ |
+| **POST** | `/api/login` | Authenticate and receive JWT | ❌ |
+| **GET** | `/api/habits` | Retrieve paginated habits for user | ✅ |
+| **POST** | `/api/habit` | Create a new habit | ✅ |
+| **PATCH** | `/api/habit/{id}` | Update an existing habit | ✅ |
+| **DELETE** | `/api/habit/{id}` | Delete a habit | ✅ |
+| **POST** | `/api/check-in` | Record a habit check-in | ✅ |
+| **PATCH** | `/api/timezone` | Update user timezone | ✅ |
 
 For interactive API testing and detailed endpoint documentation, visit the **Swagger UI** at `http://localhost:3000/api-docs` after starting the server.
 
@@ -110,10 +110,10 @@ Request → Route → Middleware (Auth) → Controller → Model → MongoDB
 
 ### Timezone Support
 
-The `/timezone` endpoint provides timezone information to the client:
-- Helps ensure check-ins are recorded with correct timezone
-- Client can validate user's timezone settings
-- Prevents check-in timestamp discrepancies
+The `/api/timezone` endpoint (PATCH) allows users to update their timezone:
+- Updates the user's timezone preference in the database
+- Resets habit streaks to avoid timezone-related inconsistencies
+- Client can validate timezone changes before submission
 
 ## Project Setup
 
@@ -336,17 +336,23 @@ MongoDB Compass is a GUI tool for viewing and managing your database.
 
 ### Using Postman for API Testing
 
-1. **Test authentication flow:**
+1. **Test signup:**
    ```
-   POST http://localhost:3000/auth/signup
-   Body (JSON): { "username": "testuser", "password": "testpass" }
+   POST http://localhost:3000/api/signup
+   Body (JSON): { "email": "user@example.com", "password": "testpass", "timezone": "America/New_York" }
    ```
 
-2. **Get JWT token and use it:**
+2. **Test login:**
+   ```
+   POST http://localhost:3000/api/login
+   Body (JSON): { "email": "user@example.com", "password": "testpass" }
+   ```
+
+3. **Use JWT token for authenticated endpoints:**
    - Copy the `token` from signup or login response
    - For authenticated endpoints, add header: `Authorization: Bearer <your_token>`
 
-3. **Test other endpoints** using the token
+4. **Test other endpoints** using the token
 
 ### Using MongoDB Compass
 
@@ -355,7 +361,7 @@ MongoDB Compass is a GUI tool for viewing and managing your database.
 3. Browse collections:
    - `users` - User accounts
    - `habits` - Habit definitions
-   - `checkins` - Check-in records
+   - `checkins` - Check-in records (habit completion tracking)
 
 ### Using Swagger UI
 
@@ -504,7 +510,7 @@ kill -9 <PID>
 
 2. **Check token expiration**: Tokens may have expiration claims
 
-3. **Verify `JWT_SECRET` matches**: Ensure same secret in `.env` and `signJwt.js`
+3. **Verify `JWT_SECRET` is set correctly**: Ensure the running application uses the expected `JWT_SECRET` value from its environment configuration
 
 4. **Test with Swagger UI**: Use the "Authorize" button to add token
 
