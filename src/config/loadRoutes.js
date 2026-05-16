@@ -1,0 +1,26 @@
+/**
+ * Registers application routes with the provided Express app instance. It should be called during the initial
+ * application setup.
+ *
+ * @param {import("express").Express} app - The Express application instance.
+ */
+function loadRoutes(app) {
+    const signupRoute = require("../route/signup");
+    app.use("/api/signup", signupRoute);
+    const loginRoute = require("../route/login");
+    app.use("/api/login", loginRoute);
+    const timezoneRoute = require("../route/timezone");
+    app.use("/api/timezone", timezoneRoute);
+    const addHabitRoute = require("../route/addHabit");
+    app.use("/api/habit", addHabitRoute);
+    const getHabitsRoute = require("../route/getHabits");
+    app.use("/api/habits", getHabitsRoute);
+    const editHabitRoute = require("../route/editHabit");
+    app.use("/api/habit", editHabitRoute);
+    const deleteHabitRoute = require("../route/deleteHabit");
+    app.use("/api/habit", deleteHabitRoute);
+    const addCheckInRoute = require("../route/addCheckIn");
+    app.use("/api/check-in", addCheckInRoute);
+}
+
+module.exports = loadRoutes;
